@@ -1,16 +1,16 @@
-﻿using HarmonyLib;
+﻿using GameNetcodeStuff;
+using HarmonyLib;
 
 namespace AlwaysInBounds.Patches
 {
-
-    [HarmonyPatch(typeof(KillLocalPlayer))]
+    [HarmonyPatch(typeof(PlayerControllerB))]
     public class KillPlayerPatch
     {
         [HarmonyPatch("KillPlayer")]
         [HarmonyPrefix]
-        private static bool KillPlayerMethodPatch(KillLocalPlayer __instance)
+        private static bool KillPlayerMethodPatch(PlayerControllerB __instance, ref bool spawnBody)
         {
-            __instance.dontSpawnBody = false;
+            spawnBody = true;
             return true;
         }
     }
