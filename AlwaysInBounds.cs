@@ -23,7 +23,7 @@ namespace AlwaysInBounds
             Instance = this;
 
             string value = Config.Bind<string>("General", "TpLocationConfig", "Dynamic", new ConfigDescription("Where to teleport player when player falls out of bounds", new AcceptableValueList<string>(new string[3] {"Ship", "Entrance", "Dynamic" }), Array.Empty<object>())).Value;
-            spawnbody = Config.Bind<bool>("General", "SpawnPlayerBody", true, "Player triggers always spawn player body").Value;
+            spawnbody = Config.Bind<bool>("General", "SpawnPlayerBody", true, "Should KillPlayer method be patched to always spawn body?").Value;
 
             tpLocationType = (value == "Ship") ? LocationType.Ship : (value == "Entrance") ? LocationType.Entrance : LocationType.Dynamic;
 
