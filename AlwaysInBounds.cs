@@ -16,6 +16,7 @@ namespace AlwaysInBounds
 
         public static LocationType tpLocationType;
         public static bool spawnbody;
+        public static bool noBodyShipFearEffect;
 
         private void Awake()
         {
@@ -24,6 +25,7 @@ namespace AlwaysInBounds
 
             string value = Config.Bind<string>("General", "TpLocationConfig", "Dynamic", new ConfigDescription("Where to teleport player when player falls out of bounds", new AcceptableValueList<string>(new string[3] {"Ship", "Entrance", "Dynamic" }), Array.Empty<object>())).Value;
             spawnbody = Config.Bind<bool>("General", "SpawnPlayerBody", true, "Should KillPlayer method be patched to always spawn body?").Value;
+            noBodyShipFearEffect = Config.Bind<bool>("General", "RemoveBodyFearInShip", true, "Disable fear effect from seeing a player body in ship?").Value;
 
             tpLocationType = (value == "Ship") ? LocationType.Ship : (value == "Entrance") ? LocationType.Entrance : LocationType.Dynamic;
 
@@ -39,6 +41,11 @@ namespace AlwaysInBounds
             Logger.LogDebug("Patching...");
 
             Harmony.PatchAll(typeof(OutOfBoundsTriggerPatch));
+
+            if (noBodyShipFearEffect)
+            {
+                Harmony.PatchAll(typeof(DeadBodyPatch));
+            }
 
             if (spawnbody)
             {
