@@ -11,8 +11,6 @@ namespace AlwaysInBounds.Patches
         [HarmonyPrefix]
         private static bool OnTriggerEnterPatch(OutOfBoundsTrigger __instance, ref Collider other)
         {
-            AlwaysInBounds.Logger.LogDebug(other.name.ToString());
-            AlwaysInBounds.Logger.LogDebug(other.tag.ToString());
             if (other.tag != "Player" || (__instance.disableWhenRoundStarts && !__instance.playersManager.inShipPhase))
             {
                 return true;
